@@ -1,4 +1,4 @@
-import { createCouseService, deleteUserEnrollmentService, enrollUserInCourseService, getAllCoursesService, getUsersByCourseService, } from "../services/course.service";
+import { createCouseService, enrollUserInCourseService, getAllCoursesService, getUsersByCourseService, inactiveUserEnrollmentService, } from "../services/course.service";
 import { Response, Request } from "express";
 
 export const createCourseController = async (
@@ -32,8 +32,8 @@ export const enrollUserInCourseController = async (
     .json({ message: "User successfully vinculed to course" });
 };
 
-export const deleteUserEnrollmentController = async (req: Request, res: Response): Promise<Response> => {
-  await deleteUserEnrollmentService(req.params.courseId, req.params.userId,);
+export const inactiveUserEnrollmentController = async (req: Request, res: Response): Promise<Response> => {
+  await inactiveUserEnrollmentService(req.params.courseId, req.params.userId,);
   return res.status(204).json();
 };
 

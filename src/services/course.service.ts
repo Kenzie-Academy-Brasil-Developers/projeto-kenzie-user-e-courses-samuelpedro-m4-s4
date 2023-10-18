@@ -46,14 +46,10 @@ export const enrollUserInCourseService = async (
   return queryResult;
 };
 
-export const deleteUserEnrollmentService = async (
+export const inactiveUserEnrollmentService = async (
   courseId: string,
   userId: string
 ): Promise<void> => {
-  await client.query(
-    `DELETE FROM "userCourses" WHERE "courseId" = $1 AND "userId" = $2 RETURNING *`,
-      [courseId, userId]
-  );
 
   await client.query(
     `UPDATE "userCourses" SET "active" = false WHERE "courseId" = $1 AND "userId" = $2`,
@@ -65,17 +61,18 @@ export const getUsersByCourseService = async (
   courseId: string
 ): Promise<UserRead> => {
   const queryString = `
-    SELECT 
-      "u"."id" AS "userId",
-      "u"."name" AS "userName",
-      "c"."id" AS "courseId",
-      "c"."name" AS "courseName",
-      "c"."description" AS "courseDescription",
-      "uc"."active" AS "userActiveInCourse"
-    FROM "users" "u"
-    JOIN "userCourses" "uc" ON "u"."id" = "uc"."userId"
-    JOIN "courses" "c" ON "uc"."courseId" = "c"."id"
-    WHERE "uc"."courseId" = $1;`;
+  SELECT 
+    "u"."id" AS "userId",
+    "u"."name" AS "userName",
+    "c"."id" AS "courseId",
+    "c"."name" AS "courseName",
+    "c"."description" AS "courseDescription",
+    "uc"."active" AS "userActiveInCourse"
+  FROM "users" "u"
+  JOIN "userCourses" "uc" ON "u"."id" = "uc"."userId"
+  JOIN "courses" "c" ON "uc"."courseId" = "c"."id"
+  WHERE "uc"."courseId" = $1
+`;
 
   const queryResult: UserResult = await client.query(queryString, [
     courseId,

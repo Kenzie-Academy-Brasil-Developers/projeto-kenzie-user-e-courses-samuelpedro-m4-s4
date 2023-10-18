@@ -18,8 +18,3 @@ userRouter.post("/login", validateBody(loginSchema), loginController);
 userRouter.get("/", verifyToken, verifyPermission, readUserController);
 
 userRouter.get("/:courseId/courses", verifyToken, verifyPermission,checkUserCoursesMiddleware, getUserCourseController)
-
-userRouter.patch("/", );
-
-userRouter.delete("/", );
-

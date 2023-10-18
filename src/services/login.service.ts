@@ -1,9 +1,8 @@
-import bcrypt from "bcrypt";
-import { sign } from "jsonwebtoken";
 import { User, UserResult } from "../interfaces/user.interface";
 import { client } from "../database";
 import AppError from "../errors/App.error";
 import { loginCreate, loginReturning } from "../interfaces/login.interface";
+import { sign } from "jsonwebtoken";
 
 export const loginService = async (data: loginCreate): Promise<loginReturning> => {
     const query: UserResult = await client.query(
@@ -15,10 +14,10 @@ export const loginService = async (data: loginCreate): Promise<loginReturning> =
         throw new AppError("Wrong email/password", 401);
     }
 
-    const user: User = query.rows[0];
-    const passwordMatch = await bcrypt.compare(data.password, user.password);
+    const user: User = query.rows[0]
 
-    if (!passwordMatch) {
+    
+    if (user.password !== data.password) {
         throw new AppError("Wrong email/password", 401);
     }
 
@@ -28,5 +27,5 @@ export const loginService = async (data: loginCreate): Promise<loginReturning> =
         { subject: user.id.toString(), expiresIn: process.env.EXPIRES_IN! }
     );
 
-    return { token };
+    return {token};
 };
