@@ -18,7 +18,7 @@ export const handleErrors = (
   }
 
   if(error instanceof JsonWebTokenError) {
-    return res.status(401).json({error: error.message})
+    return res.status(401).json({message: error.message})
   }
 
   console.log(error);

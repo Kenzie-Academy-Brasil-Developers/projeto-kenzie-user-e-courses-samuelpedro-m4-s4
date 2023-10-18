@@ -27,6 +27,6 @@ export const getUserCourseController = async (
   res: Response
 ): Promise<Response> => {
 
-  const Courses: CourseRead = await getUserCourseService(req.params.courseId);
+  const Courses: CourseRead = await getUserCourseService(req.params.id);
   return res.status(200).json(Courses);
 };
