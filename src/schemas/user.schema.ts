@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const userSchema = z.object({
     id: z.number().positive(),
-    name: z.string().max(50).min(3),
-    email: z.string().email({ message: 'Invalid email' }).max(50),
-    password: z.string().max(120).min(6),
+    name: z.string().max(50),
+    email: z.string().email().max(50),
+    password: z.string().max(120),
     admin: z.boolean().default(false),
 })
 

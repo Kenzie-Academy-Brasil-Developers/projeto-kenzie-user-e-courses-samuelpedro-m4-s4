@@ -16,4 +16,4 @@ coursesRouter.post('/:courseId/users/:userId', verifyToken, verifyPermission,  c
 
 coursesRouter.delete('/:courseId/users/:userId', verifyToken, verifyPermission,  checkCourseAndUserExistenceMiddleware, inactiveUserEnrollmentController);
 
-coursesRouter.get('/:id/users', getUsersByCourseController);
+coursesRouter.get('/:id/users', verifyToken, verifyPermission, getUsersByCourseController);
